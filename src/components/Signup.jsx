@@ -29,37 +29,29 @@ function Signup() {
   return (
     <div className="flex items-center justify-center">
       <div
-        className={`mx-auto w-full max-w-lg bg-gray-400 rounded-xl p-10 border border-black/10`}
+        className={`lg:w-1/4 md:w-1/3 sm:w-1/2 bg-purple-300 rounded-xl p-10 border-3 border-purple-500`}
       >
         <div className="mb-2 flex justify-center">
           <span className="inline-block w-full max-w-[100px]">
             <Logo width="100%" />
           </span>
         </div>
-        <h2 className="text-center text-2xl font-bold leading-tight">
+        <h2 className="text-center text-2xl mb-10 font-bold leading-tight">
           Sign up to create account
         </h2>
-        <p className="mt-2 text-center text-base text-black/60">
-          Already have an account?&nbsp;
-          <Link
-            to="/login"
-            className="font-medium text-primary transition-all duration-200 hover:underline"
-          >
-            Sign In
-          </Link>
-        </p>
+
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
         <form onSubmit={handleSubmit(create)}>
           <div className="space-y-5">
             <Input
-              lable="FullName"
+              label="FullName:"
               placeholder="enter your fullname"
               {...register("name", {
                 required: true,
               })}
             />
             <Input
-              label="email"
+              label="Email:"
               type="email"
               placeholder="enter your email"
               {...register("email", {
@@ -72,18 +64,27 @@ function Signup() {
               })}
             />
             <Input
-              label="password"
+              label="Password:"
               type="password"
               placeholder="enter your password"
               {...register("password", {
                 required: true,
               })}
             />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full ml-2">
               Create Account
             </Button>
           </div>
         </form>
+        <p className="mt-7 text-center text-sm text-black/60">
+          Already have an account?&nbsp;
+          <Link
+            to="/login"
+            className="font-medium text-primary transition-all duration-200 hover:underline"
+          >
+            Sign In
+          </Link>
+        </p>
       </div>
     </div>
   );

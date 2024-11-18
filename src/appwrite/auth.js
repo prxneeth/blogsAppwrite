@@ -2,6 +2,7 @@ import conf from "../conf/conf";
 
 import { Client, Account, ID } from "appwrite";
 
+
 class AuthService {
     client = new Client();
     account;
@@ -30,6 +31,7 @@ class AuthService {
     async login({ email, password }) {
         try {
             await this.account.createEmailPasswordSession(email, password)
+
         } catch (error) {
             throw error
         }
