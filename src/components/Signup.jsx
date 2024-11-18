@@ -1,28 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import authService from "../appwrite/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/authSlice";
-import { Button, Logo, Input } from "./index";
+import { Button, Input, Logo } from "./index.js";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
 
 function Signup() {
-  const dispatch = useDispatch();
-  const [error, setError] = useState();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
   const create = async (data) => {
+    setError("");
     try {
-      const userData = await authService.createAccount();
+      const userData = await authService.createAccount(data);
       if (userData) {
         const userData = await authService.getCurrentUser();
         if (userData) dispatch(login(userData));
         navigate("/");
       }
     } catch (error) {
-      setError(error);
+      setError(error.message);
     }
   };
 
@@ -36,24 +36,25 @@ function Signup() {
             <Logo width="100%" />
           </span>
         </div>
-        <h2 className="text-center text-2xl mb-10 font-bold leading-tight">
+        <h2 className="text-center text-2xl font-bold leading-tight">
           Sign up to create account
         </h2>
 
         {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+
         <form onSubmit={handleSubmit(create)}>
           <div className="space-y-5">
             <Input
-              label="FullName:"
-              placeholder="enter your fullname"
+              label="Full Name: "
+              placeholder="Enter your full name"
               {...register("name", {
                 required: true,
               })}
             />
             <Input
-              label="Email:"
+              label="Email: "
+              placeholder="Enter your email"
               type="email"
-              placeholder="enter your email"
               {...register("email", {
                 required: true,
                 validate: {
@@ -64,9 +65,9 @@ function Signup() {
               })}
             />
             <Input
-              label="Password:"
+              label="Password: "
               type="password"
-              placeholder="enter your password"
+              placeholder="Enter your password"
               {...register("password", {
                 required: true,
               })}
